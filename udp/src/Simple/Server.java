@@ -21,7 +21,7 @@ public class Server {
             System.out.println("Waiting in port " + originPort + "...");
             serverSocket.receive(recievePacket);
             String response = new String(recieveData);
-            System.out.println("Package Recieved!\n" + "Content: " + response);
+            System.out.println("Package Recieved!\n" + "Time: " + System.nanoTime() + "\n" + "Content: " + response);
             clientIP = recievePacket.getAddress();
             port = recievePacket.getPort();
             senddata = ("2").getBytes();

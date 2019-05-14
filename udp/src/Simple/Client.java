@@ -12,6 +12,7 @@ public class Client {
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPServer, 5000);
 
         long as = System.nanoTime();
+        System.out.println("Mensagem Enviada :" + System.nanoTime());
         clientSocket.send(sendPacket);
         byte[] recieveData = new byte[1];
         DatagramPacket recievePacket = new DatagramPacket(recieveData, recieveData.length);
