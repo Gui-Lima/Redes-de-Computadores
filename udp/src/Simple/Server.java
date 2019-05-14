@@ -21,14 +21,23 @@ public class Server {
             System.out.println("Waiting in port " + originPort + "...");
             serverSocket.receive(recievePacket);
             String response = new String(recieveData);
+            String send;
+            if (isHighElf(response)){
+                send = new String("Ni *'lassui".getBytes(), 0, "Ni *'lassui".length());
+            }
+            else{
+                send = new String("I only understand High Elf, peasant".getBytes(), 0, "I only understand High Elf, peasant".length());
+            }
             System.out.println("Package Recieved!\n" + "Time: " + System.nanoTime() + "\n" + "Content: " + response);
             clientIP = recievePacket.getAddress();
             port = recievePacket.getPort();
-            senddata = ("2").getBytes();
+            senddata = send.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(senddata, senddata.length, clientIP, port);
             serverSocket.send(sendPacket);
         }
     }
 
-
+    private static boolean isHighElf(String s) {
+        return (s.contains("Êl síla erin lû e-govaned vîn.") ||  s.contains("Gi suilon!") || s.contains("Pedig edhellen?"));
+    }
 }

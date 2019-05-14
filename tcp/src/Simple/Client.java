@@ -29,8 +29,8 @@ public class Client {
                 String serverResponse = null;
                 serverResponse = in.readLine();
                 long RTT = System.nanoTime() - t1;
-                RTT = TimeUnit.SECONDS.convert(RTT, TimeUnit.NANOSECONDS);
-                System.out.println(serverResponse + " RTT :" + RTT); // read from server and print it.
+                RTT = TimeUnit.MICROSECONDS.convert(RTT, TimeUnit.NANOSECONDS);
+                System.out.println(serverResponse + " RTT (microseconds) :" + RTT); // read from server and print it.
                 if(serverResponse == null){
                     in.close();
                     out.close();

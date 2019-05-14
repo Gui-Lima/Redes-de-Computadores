@@ -12,12 +12,13 @@ public class Client {
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPServer, 5000);
 
         long as = System.nanoTime();
-        System.out.println("Mensagem Enviada :" + System.nanoTime());
+        System.out.println("Mensagem Enviada em " + System.nanoTime());
         clientSocket.send(sendPacket);
-        byte[] recieveData = new byte[1];
+        byte[] recieveData = new byte[100];
         DatagramPacket recievePacket = new DatagramPacket(recieveData, recieveData.length);
         clientSocket.receive(recievePacket);
-        System.out.println("RTT: " + (System.nanoTime() - as) / 1000 + "ms");
+        System.out.println("Recebeu do servidor :" + new String(recievePacket.getData()));
+        System.out.println("RTT: " + (System.nanoTime() - as) / 1000 + " micro segundos");
         clientSocket.close();
     }
 }
