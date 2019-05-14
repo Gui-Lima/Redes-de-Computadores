@@ -13,31 +13,36 @@ public class Server {
             serverSocket = new ServerSocket(1234);
 
             Socket clientSocket = null;
+            clientSocket = serverSocket.accept();
+            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            System.out.println("Connected to client " + clientSocket.getInetAddress().getHostAddress());
             while(true){
-                clientSocket = serverSocket.accept();
-                System.out.println("Connected");
-
-                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
                 String textFromClient = null;
                 String textToClient = null;
-                textFromClient = in.readLine(); // read the text from client
-                System.out.println("Read '" + textFromClient + "'");
-                if ("A".equals(textFromClient))
+                textFromClient = in.readLine();
+                System.out.println("Received '" + textFromClient + "'" + " at " + System.nanoTime());
+
+                if (textFromClient.contains("Hello") || textFromClient.contains("Hi"))
                 {
-                    textToClient = "1111";
+                    textToClient = "I am Groot!";
                 }
-                else if ("B".equals(textFromClient))
+                else if (textFromClient.contains("Thanks") || textFromClient.contains("Welcome"))
                 {
-                    textToClient = "2222\r\n3333";
+                    textToClient = "I am Grooot!";
+                }
+                else if(textFromClient.equals("End")){
+                    textToClient = "I am groot...";
+                    in.close();
+                    out.close();
+                }
+                else{
+                    textToClient = "I am groot.";
                 }
 
                 System.out.println("Writing '" + textToClient + "'");
                 out.print(textToClient + "\r\n"); // send the response to client
                 out.flush();
-                out.close();
-                in.close();
             }
         }
         catch (Exception e)

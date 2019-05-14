@@ -3,6 +3,7 @@ package Simple;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 
 public class Client {
     public static void main(String[] args) {
@@ -17,21 +18,27 @@ public class Client {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             System.out.println("Connected");
 
-            String textToServer;
+            while(true){
+                String textToServer;
+                textToServer = read.readLine();
+                long t1 = System.nanoTime();
+                System.out.println("Sending '" + textToServer + "'" + " at " + System.nanoTime());
+                out.print(textToServer + "\r\n"); // send to server
+                out.flush();
 
-            textToServer = read.readLine();
-            System.out.println("Sending '" + textToServer + "'");
-            out.print(textToServer + "\r\n"); // send to server
-            out.flush();
+                String serverResponse = null;
+                serverResponse = in.readLine();
+                long RTT = System.nanoTime() - t1;
+                RTT = TimeUnit.SECONDS.convert(RTT, TimeUnit.NANOSECONDS);
+                System.out.println(serverResponse + " RTT :" + RTT); // read from server and print it.
+                if(serverResponse == null){
+                    in.close();
+                    out.close();
+                    socket.close();
+                    break;
+                }
+            }
 
-            String serverResponse = null;
-            while ((serverResponse = in.readLine()) != null)
-                System.out.println(serverResponse); // read from server and print it.
-
-            out.close();
-            in.close();
-            read.close();
-            socket.close();
         }
         catch (IOException e)
         {
