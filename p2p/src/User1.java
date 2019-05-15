@@ -14,7 +14,7 @@ public class User1 {
             InetAddress IPaddress = InetAddress.getByName("localhost");
             byte[] data;
 
-            System.out.println("AA");
+            System.out.println("Connected");
             Scanner scan = new Scanner(System.in);
 
             while(1==1){
